@@ -1,4 +1,4 @@
-javascript: (function () {
+(function () {
   var tables = [
     {
       querySelector: ".search_results_table",
@@ -21,7 +21,7 @@ javascript: (function () {
         "position: absolute; height: 100%; border-radius: 3px; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 12px; color: #333; white-space:nowrap;",
     },
   ];
-  
+
   tables.forEach(function (tableInfo) {
     var table = document.querySelector(tableInfo.querySelector);
     if (table !== null) {
@@ -84,7 +84,7 @@ javascript: (function () {
       }
     }
     processDateRunColumn(tableInfo);
-    processDateQueuedColumn(tableInfo); // Add this line to process date queued column
+    processDateQueuedColumn(tableInfo);
   });
 
   function processDateRunColumn(tableInfo) {
