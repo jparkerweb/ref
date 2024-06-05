@@ -13,8 +13,8 @@
     {
       querySelector: ".test_table--search-results",
       cellsToCheck: [6, 7, 8, 9],
-      dateRunCell: 11,
-      dateQueuedCell: 10,
+      dateQueuedCell: 11,
+      dateRunCell: 12,
       progressBarStyles:
         "position:relative; height: 20px; width: 100%; border: 1px solid #ddd; border-radius: 3px;",
       progressBarFillStyles:
