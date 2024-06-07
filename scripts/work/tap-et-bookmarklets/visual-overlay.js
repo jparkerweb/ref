@@ -385,7 +385,48 @@
     }
   }
 
+  function processLastUpdatedDate() {
+    var elements = document.querySelectorAll(
+      "td[class*='test_el--status-processing'] > span[title]"
+    );
+    elements.forEach(function (element) {
+      var titleText = element.getAttribute("title");
+      var dateRegex = /last updated: (\d{1,2}\/\d{1,2}\/\d{4} \d{1,2}:\d{2} (?:AM|PM))/;
+      var match = titleText.match(dateRegex);
+      if (match) {
+        var dateStr = match[1];
+        var lastUpdatedDate = new Date(dateStr);
+        if (!isNaN(lastUpdatedDate.getTime())) {
+          var now = new Date();
+          var differenceInSeconds = (now - lastUpdatedDate) / 1000;
+          var differenceInMinutes = differenceInSeconds / 60;
+          var appendedText = document.createElement("div");
+          var timeText, bgColor, textColor;
+          if (differenceInSeconds < 60) {
+            timeText = differenceInSeconds.toFixed(2) + " secs ago";
+          } else {
+            var minutesAgo = (differenceInSeconds / 60).toFixed(1);
+            timeText = minutesAgo + " mins ago";
+          }
+          bgColor = getHoursAgoColor(differenceInMinutes);
+          textColor = isDarkColor(bgColor) ? "white" : "black";
+          appendedText.innerText = timeText;
+          appendedText.setAttribute(
+            "style",
+            "margin-top: 2px; margin-left: 0; padding: 0 3px; display: inline-block; font-size: 0.9em; font-weight: 500; background-color: " +
+              bgColor +
+              "; border: 1px solid #e67e22; padding: 0 3px; border-radius: 5px; color: " +
+              textColor +
+              ";"
+          );
+          element.parentElement.appendChild(appendedText);
+        }
+      }
+    });
+  }
+
   highlightDuplicateCells();
   updateRunningOnText();
   sortTableRows();
+  processLastUpdatedDate();
 })();
