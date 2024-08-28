@@ -261,20 +261,37 @@
       { r: 225, g: 112, b: 85 },
       { r: 214, g: 48, b: 49 },
     ];
-    return getColorFromRange(hoursAgo, colorRange);
+    try {
+      return getColorFromRange(hoursAgo, colorRange);
+    } catch (error) {
+      console.error('Error in getHoursAgoColor:', error);
+      return 'rgb(128, 128, 128)'; // Default to gray in case of error
+    }
   }
 
   function getColorFromRange(percentageComplete, colorRange) {
+    if (!colorRange || colorRange.length === 0) {
+      console.warn('Invalid color range provided');
+      return 'rgb(128, 128, 128)'; // Default to gray if no valid range
+    }
+
     var index = Math.min(
       Math.floor(percentageComplete / 20),
       colorRange.length - 1
     );
-    var startColor = colorRange[index],
-      endColor = colorRange[Math.min(index + 1, colorRange.length - 1)],
-      ratio = (percentageComplete % 20) / 20,
-      red = Math.floor(startColor.r + (endColor.r - startColor.r) * ratio),
-      green = Math.floor(startColor.g + (endColor.g - startColor.g) * ratio),
-      blue = Math.floor(startColor.b + (endColor.b - startColor.b) * ratio);
+    var startColor = colorRange[index] || colorRange[0];
+    var endColor = colorRange[Math.min(index + 1, colorRange.length - 1)] || startColor;
+    var ratio = (percentageComplete % 20) / 20;
+
+    if (!startColor || !endColor) {
+      console.warn('Invalid color objects in range');
+      return 'rgb(128, 128, 128)'; // Default to gray if invalid color objects
+    }
+
+    var red = Math.floor(startColor.r + (endColor.r - startColor.r) * ratio);
+    var green = Math.floor(startColor.g + (endColor.g - startColor.g) * ratio);
+    var blue = Math.floor(startColor.b + (endColor.b - startColor.b) * ratio);
+
     return "rgb(" + red + ", " + green + ", " + blue + ")";
   }
 
@@ -298,7 +315,7 @@
           " overflow: hidden;" +
           " text-overflow: ellipsis;" +
           "}" +
-          "table.text_table--search-results tbody {" +
+          "table.test_table--search-results tbody {" +
           " position: sticky;" +
           " top: 0;" +
           " z-index: 1" +
