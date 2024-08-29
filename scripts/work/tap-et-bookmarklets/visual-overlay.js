@@ -100,10 +100,12 @@
           cell.innerText !== undefined
         ) {
           var cellText = cell.innerText.trim();
-          var dateRun = new Date(cellText);
+          var dateRun = new Date(cellText + ' EDT'); // Explicitly set Eastern Time
           if (!isNaN(dateRun.getTime())) {
             var now = new Date();
-            var differenceInHours = (now - dateRun) / 3600000;
+            var nowUTC = new Date(now.toUTCString());
+            var dateRunUTC = new Date(dateRun.toUTCString());
+            var differenceInHours = (nowUTC - dateRunUTC) / 3600000;
             var appendedText = document.createElement("div");
             var hoursAgo = differenceInHours.toFixed(1);
             var timeText, bgColor, textColor;
@@ -159,7 +161,9 @@
 
     if (totalProcessed > 0 && totalMessages > 0) {
       var now = new Date();
-      var elapsedTime = (now - dateRun) / 3600000; // elapsed time in hours
+      var nowUTC = new Date(now.toUTCString());
+      var dateRunUTC = new Date(dateRun.toUTCString());
+      var elapsedTime = (nowUTC - dateRunUTC) / 3600000; // elapsed time in hours
       var estimatedTotalTime = (elapsedTime / totalProcessed) * totalMessages;
       var estimatedRemainingTime = estimatedTotalTime - elapsedTime;
       var estimatedCompletionText;
@@ -198,10 +202,12 @@
           cell.innerText !== undefined
         ) {
           var cellText = cell.innerText.trim();
-          var dateQueued = new Date(cellText);
+          var dateQueued = new Date(cellText + ' EDT'); // Explicitly set Eastern Time
           if (!isNaN(dateQueued.getTime())) {
             var now = new Date();
-            var differenceInHours = (now - dateQueued) / 3600000;
+            var nowUTC = new Date(now.toUTCString());
+            var dateQueuedUTC = new Date(dateQueued.toUTCString());
+            var differenceInHours = (nowUTC - dateQueuedUTC) / 3600000;
             var appendedText = document.createElement("div");
             var hoursAgo = differenceInHours.toFixed(1);
             var timeText, bgColor, textColor;
@@ -461,10 +467,12 @@
             var match = titleText.match(dateRegex);
             if (match) {
               var dateStr = match[1];
-              var lastUpdatedDate = new Date(dateStr);
+              var lastUpdatedDate = new Date(dateStr + ' EDT'); // Explicitly set Eastern Time
               if (!isNaN(lastUpdatedDate.getTime())) {
                 var now = new Date();
-                var differenceInSeconds = (now - lastUpdatedDate) / 1000;
+                var nowUTC = new Date(now.toUTCString());
+                var lastUpdatedDateUTC = new Date(lastUpdatedDate.toUTCString());
+                var differenceInSeconds = (nowUTC - lastUpdatedDateUTC) / 1000;
                 var differenceInMinutes = differenceInSeconds / 60;
                 var appendedText = document.createElement("div");
                 var timeText, bgColor, textColor;
