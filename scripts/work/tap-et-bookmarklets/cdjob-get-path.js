@@ -1,3 +1,5 @@
+// javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref//scripts/work/tap-et-bookmarklets/visual-overlay.js';  document.body.appendChild(script);})();
+
 (function () {
   try {
     console.log("Bookmarklet started");
