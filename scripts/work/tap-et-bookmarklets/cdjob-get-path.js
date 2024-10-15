@@ -1,6 +1,6 @@
 // javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref/6c2276380fd6a3b13c42bfb861f55d182960b0e4/scripts/work/tap-et-bookmarklets/cdjob-get-path.js';  document.body.appendChild(script);})();
 
-(function () {
+(function() {
   try {
     console.log("Bookmarklet started");
 
@@ -28,7 +28,6 @@
         const jobId = jobIdMatch ? jobIdMatch[1] : "";
         console.log(`Job ID: ${jobId}`);
 
-        const rootPathVault = "\\\\pit-unity-cifs.smarshinc.com\\P41Exports\\Custom\\" + jobId;
         const nameCell = row.querySelector("td:first-child");
 
         const statusCell = row.querySelector("td.test_el--job-status");
@@ -45,7 +44,18 @@
           console.log(`Server name: ${serverName}`);
         }
 
-        function createFolderIcon(rootPath, label) {
+        // Determine the appropriate path based on the server name
+        let rootPath;
+        if (serverName === 'PIT-EXPORT-FM1' || serverName === 'PIT-EXPORT-FM2') {
+          rootPath = "\\\\pit-unity-cifs.smarshinc.com\\P41Exports\\Freddie\\" + jobId;
+        } else {
+          rootPath = "\\\\pit-unity-cifs.smarshinc.com\\P41Exports\\Custom\\" + jobId;
+        }
+
+        const fullPath = serverName ? `${rootPath}\\${serverName}` : rootPath;
+        folderPaths.push(fullPath);
+
+        function createFolderIcon(label) {
           const icon = document.createElement("span");
           icon.innerHTML = `📁${label} `;
           icon.style.cursor = "pointer";
@@ -53,38 +63,48 @@
             icon.style.color = "red";
             icon.style.fontWeight = "bold";
 
-            const fullPath = serverName ? `${rootPath}\\${serverName}` : rootPath;
             navigator.clipboard.writeText(fullPath);
             console.log(`Copied path: ${fullPath}`);
-
-            const toast = document.createElement("div");
-            toast.innerText = `Copied folder path: ${fullPath}`;
-            toast.style.position = "fixed";
-            toast.style.bottom = "10px";
-            toast.style.right = "10px";
-            toast.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-            toast.style.color = "#fff";
-            toast.style.padding = "10px";
-            toast.style.borderRadius = "5px";
-            toast.style.opacity = "0";
-            document.body.appendChild(toast);
-            setTimeout(() => {
-              toast.style.opacity = "1";
-            }, 100);
-            setTimeout(() => {
-              toast.style.opacity = "0";
-              setTimeout(() => {
-                document.body.removeChild(toast);
-              }, 1000);
-            }, 2000);
           });
           return icon;
         }
 
-        nameCell.appendChild(createFolderIcon(rootPathVault, "vault"));
-        folderPaths.push(rootPathVault);
+        nameCell.appendChild(createFolderIcon("vault"));
       });
-      console.log(`Folder paths: ${folderPaths.join(", ")}`);
+
+      // Add folder icon to the table header
+      const headerRow = table.querySelector("tr");
+      const jobIdHeader = headerRow.querySelector("th");
+      const headerFolderIcon = document.createElement("span");
+      headerFolderIcon.innerHTML = "📁 ";
+      headerFolderIcon.style.cursor = "pointer";
+      headerFolderIcon.addEventListener("click", () => {
+        const combinedPaths = folderPaths.join(", ");
+        navigator.clipboard.writeText(combinedPaths);
+        console.log(`Copied combined paths: ${combinedPaths}`);
+
+        const toast = document.createElement("div");
+        toast.innerText = `Copied combined folder paths: ${combinedPaths}`;
+        toast.style.position = "fixed";
+        toast.style.bottom = "10px";
+        toast.style.right = "10px";
+        toast.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+        toast.style.color = "#fff";
+        toast.style.padding = "10px";
+        toast.style.borderRadius = "5px";
+        toast.style.opacity = "0";
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          toast.style.opacity = "1";
+        }, 100);
+        setTimeout(() => {
+          toast.style.opacity = "0";
+          setTimeout(() => {
+            document.body.removeChild(toast);
+          }, 1000);
+        }, 2000);
+      });
+      jobIdHeader.insertBefore(headerFolderIcon, jobIdHeader.firstChild);
     } else {
       console.log("Table not found.");
     }
