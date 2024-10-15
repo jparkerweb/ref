@@ -1,4 +1,4 @@
-// javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref//scripts/work/tap-et-bookmarklets/visual-overlay.js';  document.body.appendChild(script);})();
+// javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref/6c2276380fd6a3b13c42bfb861f55d182960b0e4/scripts/work/tap-et-bookmarklets/cdjob-get-path.js';  document.body.appendChild(script);})();
 
 (function () {
   try {
