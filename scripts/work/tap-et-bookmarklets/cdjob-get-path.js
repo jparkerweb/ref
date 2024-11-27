@@ -1,4 +1,4 @@
-// javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref/fcdec69d13cca715d461848bc0596b57375daead/scripts/work/tap-et-bookmarklets/cdjob-get-path.js';  document.body.appendChild(script);})();
+
 
 (function() {
   try {
@@ -47,9 +47,9 @@
         // Determine the appropriate path based on the server name
         let rootPath;
         if (serverName === 'PIT-EXPORT-FM1' || serverName === 'PIT-EXPORT-FM2') {
-          rootPath = "\\\\pit-unity-cifs.smarshinc.com\\P41Exports\\Freddie\\" + jobId;
+          rootPath = "\\\\traffic.pit-tempvault-02.smarshinc.com\\ifs\\pit-tempvault-02\\vault\\mercuryExports\\Freddie\\" + jobId;
         } else {
-          rootPath = "\\\\pit-unity-cifs.smarshinc.com\\P41Exports\\Custom\\" + jobId;
+          rootPath = "\\\\traffic.pit-tempvault-02.smarshinc.com\\ifs\\pit-tempvault-02\\vault\\mercuryExports\\Custom\\" + jobId;
         }
 
         const fullPath = serverName ? `${rootPath}\\${serverName}` : rootPath;
