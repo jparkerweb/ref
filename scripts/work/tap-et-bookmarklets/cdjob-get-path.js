@@ -1,4 +1,4 @@
-
+// javascript:(function(){  var script = document.createElement('script');  script.src = 'https://rawcdn.githack.com/jparkerweb/ref/refs/heads/main/scripts/work/tap-et-bookmarklets/cdjob-get-path.js';  document.body.appendChild(script);})();
 
 (function() {
   try {
